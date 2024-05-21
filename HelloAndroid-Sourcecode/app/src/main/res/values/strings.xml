@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">My First App</string>
+    <string name="back"><a href="com.jblearning.helloandroid.MainActivity">back</a></string>
+    <string name="enter_the_weight">Enter the weight</string>
+    <string name="home">Home</string>
+    <string name="Name" />
+    <string name="select_the_date">Select the date</string>
+    <string name="save">Save</string>
+    <string name="delete">Delete</string>
+    <string name="picture">Picture</string>
+    <string name="history">History</string>
+    <string name="Home">Home</string>
+    <string name="enter_the_name">enter_the_name</string>
+    <string name="enter_the_height" />
+    <string name="col1">Date</string>/>
+    <string name="col2">Weight</string>
+    <string name="row1date">rowdate</string>
+    <string name="row2weight">rowweight</string>
+    <string name="col1date">coldate</string>
+    <string name="col2weight">colweight</string>
+    <string name="ActiveCustomer">ActiveCustomer</string>
+    <string name="capture_photo">Capture Photo</string>
+
+</resources>

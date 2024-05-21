@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="8dp"
+    android:background="@drawable/item_border">
+
+    <TextView
+        android:id="@+id/tv_weight"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="Weight: "
+        android:textSize="14sp"
+        android:textStyle="bold" />
+    <View
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:background="#000000" />
+
+    <TextView
+        android:id="@+id/tv_date"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:gravity="center"
+        android:padding="8dp"
+        android:textSize="14sp"
+        android:text="Date: "
+        android:textStyle="bold" />
+    <View
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:background="#000000" />
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_launcher_foreground"
+        android:contentDescription="ClicktoExpand" />
+    <View
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:background="#000000" />
+    <ImageView
+        android:id="@+id/deleteIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:padding="8dp"
+        android:src="@android:drawable/ic_delete"
+        android:contentDescription="Delete" />
+
+</LinearLayout>
