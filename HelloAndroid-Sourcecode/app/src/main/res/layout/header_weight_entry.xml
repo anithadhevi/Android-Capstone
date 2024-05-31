@@ -9,6 +9,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:layout_margin="4dp"
         android:gravity="center"
         android:padding="8dp"
         android:text="Weight"
@@ -24,10 +25,11 @@
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_weight="1.5"
         android:gravity="center"
         android:padding="8dp"
-        android:text="  Date  "
+        android:text=" Date "
+        android:layout_margin="4dp"
         android:textSize="14sp"
         android:textStyle="bold" />
 
@@ -40,10 +42,10 @@
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_weight="1.5"
         android:gravity="center"
         android:padding="8dp"
-        android:text="Images"
+        android:text="  Images  "
         android:textSize="14sp"
         android:textStyle="bold" />
     <View
@@ -54,7 +56,7 @@
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_weight=".5"
         android:gravity="center"
         android:padding="8dp"
         android:text=""

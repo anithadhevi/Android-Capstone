@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity
 {
     private DatabaseHelper dbHelper;
     private TextView weightSummaryTextView;
+
     private String name;
     private String weight;
     private Date date;
@@ -46,22 +47,37 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         dbHelper = new DatabaseHelper(this);
-        weightSummaryTextView = findViewById(R.id.displayTextView);
+        //weightSummaryTextView = findViewById(R.id.displayTextView);
+        TextView weightValueTextView = findViewById(R.id.weightview);
+        String weight = getIntent().getStringExtra("weight");
+        String date = getIntent().getStringExtra("date");
+        TextView dateValueTextView = findViewById(R.id.dateview);
+
+        // Set the weight and date values in the TextViews
+        weightValueTextView.setText(weight);
+        dateValueTextView.setText(date);
 
         Button btnFirst = findViewById(R.id.HomeActivityBtn);
 
-        sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
+        WeightEntry entries = dbHelper.getLatestWeights();
+        if (entries != null) {
+            weightValueTextView.setText(String.valueOf(entries.getWeight()));
+            dateValueTextView.setText(entries.getDate());
+        }
+        //weightSummaryTextView.setText(  + );
+
+        //sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
         //String name = sharedPreferences.getString("NAME", null);
-        String date = sharedPreferences.getString("DATE", null);
-        String weight = sharedPreferences.getString("WEIGHT", null);
-        displayWeightSummary();
+        //String sumdate = sharedPreferences.getString("DATE", null);
+        //String sumweight = sharedPreferences.getString("WEIGHT", null);
+        //displayWeightSummary();
 
 
-        if (name != null && weight !=null && date !=null)
+       /* if (name != null && weight !=null && date !=null)
         {
             TextView textWelcome = findViewById(R.id.displayTextView);
             textWelcome.setText("Hello AS  /n Your weight is " + weight + " as on " + date);
-        }
+        }*/
 
         btnFirst.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,7 +117,7 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
-        private void displayWeightSummary()
+       /* private void displayWeightSummary()
         {
             List<WeightEntry> entries =dbHelper.getAllWeights();
             {
@@ -109,12 +125,12 @@ public class MainActivity extends AppCompatActivity
               if(!entries.isEmpty())
               {
                   WeightEntry latestEntry = entries.get(entries.size()-1);
-                  weightSummaryTextView.setText("            Your entered weight is " + latestEntry.getWeight() + " as on " + latestEntry.getDate());
+                  weightSummaryTextView.setText(latestEntry.getWeight()  + latestEntry.getDate());
               }
 
-            }
+            }*/
         }
-    }
+
 
 
 

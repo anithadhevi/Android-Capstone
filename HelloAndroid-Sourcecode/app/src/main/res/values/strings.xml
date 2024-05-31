@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My First App</string>
+    <string name="app_name">Weight Tracker</string>
     <string name="back"><a href="com.jblearning.helloandroid.MainActivity">back</a></string>
     <string name="enter_the_weight">Enter the weight</string>
     <string name="home">Home</string>
@@ -20,5 +20,6 @@
     <string name="col2weight">colweight</string>
     <string name="ActiveCustomer">ActiveCustomer</string>
     <string name="capture_photo">Capture Photo</string>
+    <string name="Clear">Clear</string>
 
 </resources>

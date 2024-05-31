@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -23,9 +24,16 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import android.provider.MediaStore;
 import android.Manifest;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
+import java.nio.ByteBuffer;
 import androidx.activity.result.ActivityResultLauncher;
+
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public class SecondActivity extends AppCompatActivity {
     private static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -38,6 +46,8 @@ public class SecondActivity extends AppCompatActivity {
     private ImageView ivTrackerImage;
     private EditText etDate;
     private String ImagePath;
+
+
     public static final String READ_MEDIA_IMAGES = "android.permission.READ_MEDIA_IMAGES";
 
     @Override
@@ -68,6 +78,7 @@ public class SecondActivity extends AppCompatActivity {
                         month = month + 1;
                         String date = month + "/" + day + "/" + year;
                         etDate.setText(date);
+
                     }
                 }, year, month, day);
                 datePickerDialog.show();
@@ -116,7 +127,6 @@ public class SecondActivity extends AppCompatActivity {
             }
         });
     }
-
     private void getPermissions() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ||
                 ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
@@ -181,11 +191,41 @@ public class SecondActivity extends AppCompatActivity {
         return mypath.getAbsolutePath();
     }
 
-    private void saveWeightEntry() {
+    private String saveRawBitmap(Bitmap bitmap) {
+        FileOutputStream fos = null;
+        ContextWrapper cw = new ContextWrapper(getApplicationContext());
+        File directory = cw.getDir("WeightTracker", Context.MODE_PRIVATE);
+        String fileName = "WeightTracker_" + System.currentTimeMillis() + ".jpg";
+        File mypath = new File(directory, fileName);
+        try {
+            fos = new FileOutputStream(mypath);
+            int bytes = bitmap.getByteCount();
+            ByteBuffer buffer = ByteBuffer.allocate(bytes);
+            bitmap.copyPixelsToBuffer(buffer);
+            byte[] array = buffer.array();
+            fos.write(array);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (fos != null) {
+                    fos.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return mypath.getAbsolutePath();
+    }
+
+    private void saveWeightEntry()
+    {
 
         String weightString = weightInput.getText().toString().trim();
-        if (weightString.isEmpty()) {
-            Toast.makeText(SecondActivity.this, "Please enter the weight", Toast.LENGTH_LONG).show();
+        String weightDate = etDate.getText().toString().trim();
+        if (weightString.isEmpty() || weightDate.isEmpty())
+        {
+            Toast.makeText(SecondActivity.this, "Please enter the Weight & Date", Toast.LENGTH_LONG).show();
             return;
         }
         double weight = Double.parseDouble(weightString);
@@ -194,7 +234,9 @@ public class SecondActivity extends AppCompatActivity {
         boolean isInserted = dbHelper.addWeightEntry(weight,date, imagePath);
         if (isInserted) {
             Toast.makeText(SecondActivity.this, "Weight Entry Saved", Toast.LENGTH_SHORT).show();
-        } else {
+        }
+        else
+        {
             Toast.makeText(SecondActivity.this, "Error in saving Weight Entry", Toast.LENGTH_SHORT).show();
         }
 
@@ -202,11 +244,16 @@ public class SecondActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //clear the entered information
-                nameInput.setText("");
                 weightInput.setText("");
                 dateInput.setText("");
             }
         });
     }
+    private void validateInput(String input) {
+        if (!input.matches("\\d*")) {  // Regex to check if input contains only digits
+            Toast.makeText(SecondActivity.this, "Only numeric characters are allowed.", Toast.LENGTH_SHORT).show();
+           // Toast.makeText(SecondActivity.this, "Only numeric characters are allowed.", Toast.LENGTH_SHORT).show();
 
+        }
+    }
 }

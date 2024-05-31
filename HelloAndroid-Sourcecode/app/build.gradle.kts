@@ -64,6 +64,14 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.gridlayout)
     implementation(libs.androidx.recyclerview)
+    implementation(libs.androidx.cardview)
+    implementation(libs.glide)
+    //implementation(libs.compiler)
+    //implementation(com.github.)
+    //implementation(libs.annotations)
+
+    //implementation 'com.github.glide:glide:4.11.0'
+    //annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
     //implementation(libs.androidx.room)
     //implementation(androidx.sqlite)
     //implementation "androidx.room:room-runtime:2.4.0"
@@ -77,5 +85,4 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-
 }

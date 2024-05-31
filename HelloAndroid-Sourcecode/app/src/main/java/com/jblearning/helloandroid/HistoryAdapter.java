@@ -11,10 +11,13 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import com.bumptech.glide.Glide;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.List;
 
 public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
@@ -52,31 +55,34 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (holder.getItemViewType() == ITEMS) {
-            WeightEntry weightEntry = weightList.get(position);// Adjust for header
+            WeightEntry weightEntry = weightList.get(position-1);// Adjust for header
             EntryViewHolder entryView = (EntryViewHolder) holder;
             entryView.tvWeight.setText(String.valueOf(weightEntry.getWeight()));
             entryView.tvDate.setText(weightEntry.getDate());
+            if (weightEntry.getImagePath() != null &&
+                    !weightEntry.getImagePath().isEmpty()) {
+                Bitmap bitmap = BitmapFactory.decodeFile(weightEntry.getImagePath());
+                Glide.with(dbContext).load(new File(weightEntry.getImagePath())).into(((EntryViewHolder) holder).ivExpandImage);
 
-            Bitmap bitmap = BitmapFactory.decodeFile(weightEntry.getImagePath());
-            entryView.ivExpandImage.setImageBitmap(bitmap);
+                ((EntryViewHolder) holder).ivExpandImage.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Dialog dialog = new Dialog(dbContext);
+                        dialog.setContentView(R.layout.expanded_image);
+                        expandedImage = dialog.findViewById(R.id.expandedImageView);
+                        Glide.with(dbContext).load(new File(weightEntry.getImagePath())).into(expandedImage);
+                        expandedImage.setVisibility(View.VISIBLE);
 
-            ((EntryViewHolder) holder).ivExpandImage.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Dialog dialog = new Dialog(dbContext);
-                    dialog.setContentView(R.layout.expanded_image);
-                    expandedImage = dialog.findViewById(R.id.expandedImageView);
-                    expandedImage.setImageBitmap(bitmap);
-                    expandedImage.setVisibility(View.VISIBLE);
-                    expandedImage.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            expandedImage.setVisibility(View.GONE);
-                        }
-                    });
-                    dialog.show();
-                }
-            });
+                        expandedImage.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                expandedImage.setVisibility(View.GONE);
+                            }
+                        });
+                        dialog.show();
+                    }
+                });
+            }
 
             entryView.ivDeleteImage.setOnClickListener(v -> {
                 // Delete the user from the database
@@ -90,7 +96,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public int getItemCount() {
-        return weightList.size();
+        return weightList.size() + 1;
     }
 
     public static class HeaderViewHolder extends RecyclerView.ViewHolder {
@@ -101,7 +107,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public static class EntryViewHolder extends RecyclerView.ViewHolder {
         TextView tvWeight, tvDate, tvId;
         ImageView ivDeleteImage;
-        ImageButton ivExpandImage;
+        ImageView ivExpandImage;
         public EntryViewHolder(@NonNull View itemView) {
             super(itemView);
             tvWeight = itemView.findViewById(R.id.tv_weight);
@@ -110,7 +116,6 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             ivDeleteImage = itemView.findViewById(R.id.deleteIcon);
         }
     }
-
     protected void DeleteEntry(int Id) {
         dbHelper.deleteWeightEntry(Id);
     }
